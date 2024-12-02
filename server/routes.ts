@@ -3,6 +3,7 @@ import { setupAuth } from "./auth";
 import { db } from "../db";
 import { featureRequests, statusEnum, insertFeatureRequestSchema } from "@db/schema";
 import { eq, like, and, desc } from "drizzle-orm";
+import { type ZodIssue } from "zod";
 
 export function registerRoutes(app: Express) {
   setupAuth(app);
@@ -59,8 +60,8 @@ export function registerRoutes(app: Express) {
       if (!result.success) {
         return res.status(400).json({
           error: "Validation failed",
-          details: result.error.issues.map((issue: { path: string[], message: string }) => ({
-            field: issue.path.join('.'),
+          details: result.error.issues.map((issue: ZodIssue) => ({
+            field: issue.path.map(p => p.toString()).join('.'),
             message: issue.message
           }))
         });

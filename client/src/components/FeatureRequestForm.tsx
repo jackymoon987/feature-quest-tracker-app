@@ -32,7 +32,18 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
 
   const onSubmit = async (data: InsertFeatureRequest) => {
     try {
+      console.log('Submitting feature request with data:', data);
+      const validation = insertFeatureRequestSchema.safeParse(data);
+      
+      if (!validation.success) {
+        console.error('Validation failed:', validation.error);
+        throw new Error(validation.error.issues.map(i => i.message).join(', '));
+      }
+      
+      console.log('Validation successful, sending request...');
       await createFeatureRequest(data);
+      
+      console.log('Feature request created successfully');
       toast({
         title: "Success",
         description: "Feature request created successfully",
@@ -50,7 +61,10 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
   };
 
   return (
-    <DialogContent>
+    <DialogContent aria-describedby="feature-request-form-description">
+      <div id="feature-request-form-description" className="sr-only">
+        Form to create a new feature request. Fill in the title, description, priority, and optional contact information.
+      </div>
       <DialogHeader>
         <DialogTitle>New Feature Request</DialogTitle>
       </DialogHeader>
