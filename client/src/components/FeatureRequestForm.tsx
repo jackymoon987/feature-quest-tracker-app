@@ -27,13 +27,24 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
     },
   });
 
+  const { toast } = useToast();
+
   const onSubmit = async (data: InsertFeatureRequest) => {
     try {
       await createFeatureRequest(data);
+      toast({
+        title: "Success",
+        description: "Feature request created successfully",
+      });
       onSuccess();
       form.reset();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("Error creating feature request:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create feature request",
+        variant: "destructive",
+      });
     }
   };
 

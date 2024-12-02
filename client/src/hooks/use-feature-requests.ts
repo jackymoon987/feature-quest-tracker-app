@@ -29,7 +29,12 @@ export function useFeatureRequests(search?: string, status?: string) {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create feature request");
+      const errorData = await response.json();
+      throw new Error(
+        errorData.details
+          ? `Validation failed: ${errorData.details.map((d: any) => `${d.field} ${d.message}`).join(', ')}`
+          : errorData.message || "Failed to create feature request"
+      );
     }
 
     queryClient.invalidateQueries({ queryKey: ["feature-requests"] });

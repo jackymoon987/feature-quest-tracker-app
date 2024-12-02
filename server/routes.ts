@@ -31,8 +31,9 @@ export function registerRoutes(app: Express) {
     }
 
     // Status filter
-    if (status && ["open", "in_review", "approved", "rejected", "in_progress", "completed"].includes(status)) {
-      whereClause.push(eq(featureRequests.status, status as "open" | "in_review" | "approved" | "rejected" | "in_progress" | "completed"));
+    const statusValue = status?.toString();
+    if (statusValue && statusEnum.enumValues.includes(statusValue as any)) {
+      whereClause.push(eq(featureRequests.status, statusValue as typeof statusEnum.enumValues[number]));
     }
 
     const requests = await db
@@ -49,15 +50,35 @@ export function registerRoutes(app: Express) {
       return res.status(401).send("Not authenticated");
     }
 
-    const [request] = await db
-      .insert(featureRequests)
-      .values({
+    try {
+      const result = insertFeatureRequestSchema.safeParse({
         ...req.body,
-        submitterId: req.user!.id,
-      })
-      .returning();
+        submitterId: req.user!.id
+      });
 
-    res.json(request);
+      if (!result.success) {
+        return res.status(400).json({
+          error: "Validation failed",
+          details: result.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message
+          }))
+        });
+      }
+
+      const [request] = await db
+        .insert(featureRequests)
+        .values(result.data)
+        .returning();
+
+      res.json(request);
+    } catch (error: any) {
+      console.error("Error creating feature request:", error);
+      res.status(500).json({
+        error: "Failed to create feature request",
+        message: error.message
+      });
+    }
   });
 
   app.patch("/api/feature-requests/:id", async (req, res) => {
