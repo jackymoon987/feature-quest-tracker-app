@@ -32,36 +32,37 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
 
   const onSubmit = async (data: InsertFeatureRequest) => {
     try {
-      console.log('Submitting feature request with data:', data);
+      console.log('Form submission started:', data);
       const validation = insertFeatureRequestSchema.safeParse(data);
-      
       if (!validation.success) {
-        console.error('Validation failed:', validation.error);
-        throw new Error(validation.error.issues.map(i => i.message).join(', '));
+        console.error('Validation errors:', validation.error);
+        toast({
+          title: "Validation Error",
+          description: validation.error.issues.map(i => i.message).join(', '),
+          variant: "destructive"
+        });
+        return;
       }
-      
-      console.log('Validation successful, sending request...');
       await createFeatureRequest(data);
-      
       console.log('Feature request created successfully');
       toast({
         title: "Success",
-        description: "Feature request created successfully",
+        description: "Feature request created successfully"
       });
       onSuccess();
       form.reset();
     } catch (error: any) {
-      console.error("Error creating feature request:", error);
+      console.error('Submission error:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to create feature request",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
 
   return (
-    <DialogContent aria-describedby="feature-request-form-description">
+    <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto" aria-describedby="feature-request-form-description">
       <div id="feature-request-form-description" className="sr-only">
         Form to create a new feature request. Fill in the title, description, priority, and optional contact information.
       </div>
