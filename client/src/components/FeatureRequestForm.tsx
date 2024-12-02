@@ -8,6 +8,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { insertFeatureRequestSchema, type InsertFeatureRequest } from "@db/schema";
 import { useFeatureRequests } from "../hooks/use-feature-requests";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   onSuccess: () => void;
