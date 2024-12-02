@@ -1,7 +1,7 @@
 import { type Express } from "express";
 import { setupAuth } from "./auth";
 import { db } from "../db";
-import { featureRequests } from "@db/schema";
+import { featureRequests, statusEnum, insertFeatureRequestSchema } from "@db/schema";
 import { eq, like, and, desc } from "drizzle-orm";
 
 export function registerRoutes(app: Express) {
@@ -59,7 +59,7 @@ export function registerRoutes(app: Express) {
       if (!result.success) {
         return res.status(400).json({
           error: "Validation failed",
-          details: result.error.issues.map(issue => ({
+          details: result.error.issues.map((issue: { path: string[], message: string }) => ({
             field: issue.path.join('.'),
             message: issue.message
           }))
