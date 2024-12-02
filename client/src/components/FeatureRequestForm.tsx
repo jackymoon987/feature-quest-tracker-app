@@ -33,18 +33,13 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
   const onSubmit = async (data: InsertFeatureRequest) => {
     try {
       console.log('Form submission started:', data);
-      const validation = insertFeatureRequestSchema.safeParse(data);
-      if (!validation.success) {
-        console.error('Validation errors:', validation.error);
-        toast({
-          title: "Validation Error",
-          description: validation.error.issues.map(i => i.message).join(', '),
-          variant: "destructive"
-        });
-        return;
-      }
-      await createFeatureRequest(data);
-      console.log('Feature request created successfully');
+      // Add submitterId from the current user
+      const requestData = {
+        ...data,
+        status: "open" as const  // Explicitly type the status
+      };
+      
+      await createFeatureRequest(requestData);
       toast({
         title: "Success",
         description: "Feature request created successfully"

@@ -22,10 +22,12 @@ export function useFeatureRequests(search?: string, status?: string) {
   });
 
   const createFeatureRequest = async (request: Partial<FeatureRequest>) => {
+    console.log('Sending request to server:', request);
     const response = await fetch("/api/feature-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request),
+      credentials: 'include'  // Add this to ensure cookies are sent
     });
 
     if (!response.ok) {
