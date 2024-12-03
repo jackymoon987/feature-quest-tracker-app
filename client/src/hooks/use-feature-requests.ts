@@ -44,20 +44,30 @@ export function useFeatureRequests(search?: string, status?: string) {
   };
 
   const updateFeatureRequest = async (id: number, updates: Partial<FeatureRequest>) => {
+    console.log('Sending update request:', { id, updates });
     const response = await fetch(`/api/feature-requests/${id}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify(updates),
-      credentials: 'include'  // Add this line to send authentication cookies
+      credentials: 'include'
     });
 
+    console.log('Update response status:', response.status);
+    
     if (!response.ok) {
       const errorData = await response.json();
+      console.error('Update error:', errorData);
       throw new Error(errorData.message || "Failed to update feature request");
     }
 
+    const updatedRequest = await response.json();
+    console.log('Update successful:', updatedRequest);
+    
     queryClient.invalidateQueries({ queryKey: ["feature-requests"] });
-    return response.json();
+    return updatedRequest;
   };
 
   return {

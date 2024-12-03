@@ -18,7 +18,18 @@ export default function FeatureRequestList({ searchTerm, statusFilter }: Props) 
   const { data: requests, updateFeatureRequest } = useFeatureRequests(searchTerm, statusFilter);
 
   const handleStatusChange = async (request: FeatureRequest, newStatus: StatusType) => {
-    await updateFeatureRequest(request.id, { status: newStatus });
+    try {
+      console.log('Updating status:', { id: request.id, oldStatus: request.status, newStatus });
+      await updateFeatureRequest(request.id, { status: newStatus });
+      console.log('Status updated successfully');
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update status: " + (error as Error).message,
+        variant: "destructive"
+      });
+    }
   };
 
   return (
