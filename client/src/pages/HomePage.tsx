@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { 
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem
+} from "@/components/ui/select";
 import FeatureRequestForm from "../components/FeatureRequestForm";
 import FeatureRequestList from "../components/FeatureRequestList";
 import { useUser } from "../hooks/use-user";
