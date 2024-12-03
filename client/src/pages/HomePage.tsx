@@ -17,7 +17,7 @@ export default function HomePage() {
   const { user, logout } = useUser();
   const [showNewRequestDialog, setShowNewRequestDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   return (
     <div className="min-h-screen bg-background">
@@ -49,7 +49,7 @@ export default function HomePage() {
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="open">Open</SelectItem>
                 <SelectItem value="in_review">In Review</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>

@@ -17,7 +17,10 @@ type StatusType = typeof statusEnum.enumValues[number];
 export default function FeatureRequestList({ searchTerm, statusFilter }: Props) {
   const { user } = useUser();
   const { toast } = useToast();
-  const { data: requests, updateFeatureRequest } = useFeatureRequests(searchTerm, statusFilter);
+  const { data: requests, updateFeatureRequest } = useFeatureRequests(
+    searchTerm, 
+    statusFilter === "all" ? undefined : statusFilter
+  );
 
   const handleStatusChange = async (request: FeatureRequest, newStatus: StatusType) => {
     try {
