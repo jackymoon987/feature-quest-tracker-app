@@ -18,7 +18,7 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
   const { createFeatureRequest } = useFeatureRequests();
   
   const form = useForm<InsertFeatureRequest>({
-    resolver: zodResolver(insertFeatureRequestSchema),
+    resolver: zodResolver(insertFeatureRequestSchema.omit({ submitterId: true })),
     defaultValues: {
       title: "",
       description: "",
@@ -33,13 +33,16 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
   const onSubmit = async (data: InsertFeatureRequest) => {
     try {
       console.log('Form submission started:', data);
-      // Add submitterId from the current user
       const requestData = {
         ...data,
-        status: "open" as const  // Explicitly type the status
+        status: "open" as const,
+        submitterId: undefined  // Remove this as it's set by the server
       };
       
-      await createFeatureRequest(requestData);
+      console.log('Sending request:', requestData);
+      const response = await createFeatureRequest(requestData);
+      console.log('Server response:', response);
+      
       toast({
         title: "Success",
         description: "Feature request created successfully"
