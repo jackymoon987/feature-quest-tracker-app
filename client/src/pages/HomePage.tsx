@@ -35,11 +35,12 @@ export default function HomePage() {
         <div className="flex justify-between items-center mb-8">
           <div className="flex-1 max-w-xs">
             <Select
+              defaultValue="all"
               value={statusFilter}
               onValueChange={setStatusFilter}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="All Status" />
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>

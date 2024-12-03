@@ -60,10 +60,10 @@ export default function FeatureRequestForm({ onSuccess }: Props) {
   };
 
   return (
-    <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto" aria-describedby="feature-request-form-description">
-      <div id="feature-request-form-description" className="sr-only">
+    <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogDescription className="sr-only">
         Form to create a new feature request. Fill in the title, description, priority, and optional contact information.
-      </div>
+      </DialogDescription>
       <DialogHeader>
         <DialogTitle>New Feature Request</DialogTitle>
       </DialogHeader>
