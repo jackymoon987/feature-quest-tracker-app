@@ -5,7 +5,12 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle,
+  DialogDescription 
+} from "@/components/ui/dialog";
 import { insertFeatureRequestSchema, type InsertFeatureRequest } from "@db/schema";
 import { useFeatureRequests } from "../hooks/use-feature-requests";
 import { useToast } from "@/hooks/use-toast";
