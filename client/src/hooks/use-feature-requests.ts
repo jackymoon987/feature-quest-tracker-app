@@ -1,9 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { FeatureRequest } from "@db/schema";
 
-async function fetchFeatureRequests(search?: string, status?: string) {
+async function fetchFeatureRequests(status?: string) {
   const params = new URLSearchParams();
-  if (search) params.append("search", search);
   if (status) params.append("status", status);
 
   const response = await fetch(`/api/feature-requests?${params}`);
@@ -13,12 +12,12 @@ async function fetchFeatureRequests(search?: string, status?: string) {
   return response.json();
 }
 
-export function useFeatureRequests(search?: string, status?: string) {
+export function useFeatureRequests(status?: string) {
   const queryClient = useQueryClient();
 
   const { data } = useQuery<FeatureRequest[]>({
-    queryKey: ["feature-requests", search, status],
-    queryFn: () => fetchFeatureRequests(search, status),
+    queryKey: ["feature-requests", status],
+    queryFn: () => fetchFeatureRequests(status),
   });
 
   const createFeatureRequest = async (request: Partial<FeatureRequest>) => {

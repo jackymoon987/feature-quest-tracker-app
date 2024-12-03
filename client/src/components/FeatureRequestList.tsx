@@ -8,17 +8,15 @@ import type { statusEnum } from "@db/schema";
 import { useToast } from "@/hooks/use-toast";
 
 interface Props {
-  searchTerm: string;
   statusFilter: string;
 }
 
 type StatusType = typeof statusEnum.enumValues[number];
 
-export default function FeatureRequestList({ searchTerm, statusFilter }: Props) {
+export default function FeatureRequestList({ statusFilter }: Props) {
   const { user } = useUser();
   const { toast } = useToast();
   const { data: requests, updateFeatureRequest } = useFeatureRequests(
-    searchTerm, 
     statusFilter === "all" ? undefined : statusFilter
   );
 

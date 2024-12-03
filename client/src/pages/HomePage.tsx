@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { 
   Select,
   SelectTrigger,
@@ -16,7 +15,6 @@ import { useUser } from "../hooks/use-user";
 export default function HomePage() {
   const { user, logout } = useUser();
   const [showNewRequestDialog, setShowNewRequestDialog] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
   return (
@@ -35,12 +33,7 @@ export default function HomePage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <div className="flex gap-4 flex-1 max-w-2xl">
-            <Input
-              placeholder="Search requests..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div className="flex-1 max-w-xs">
             <Select
               value={statusFilter}
               onValueChange={setStatusFilter}
@@ -64,10 +57,7 @@ export default function HomePage() {
           </Button>
         </div>
 
-        <FeatureRequestList 
-          searchTerm={searchTerm}
-          statusFilter={statusFilter}
-        />
+        <FeatureRequestList statusFilter={statusFilter} />
 
         <Dialog
           open={showNewRequestDialog}

@@ -14,7 +14,7 @@ export function registerRoutes(app: Express) {
       return res.status(401).send("Not authenticated");
     }
 
-    const { search, status } = req.query;
+    const { status } = req.query;
     const user = req.user!;
     
     const whereClause: any[] = [];
@@ -22,13 +22,6 @@ export function registerRoutes(app: Express) {
     // Filter by submitter for non-admin users
     if (!user.isAdmin) {
       whereClause.push(eq(featureRequests.submitterId, user.id));
-    }
-
-    // Search filter
-    if (search) {
-      whereClause.push(
-        like(featureRequests.title, `%${search}%`)
-      );
     }
 
     // Status filter
