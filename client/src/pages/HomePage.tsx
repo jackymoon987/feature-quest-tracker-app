@@ -39,13 +39,18 @@ export default function HomePage() {
               value={statusFilter}
               onValueChange={setStatusFilter}
             >
-              <option value="">All Status</option>
-              <option value="open">Open</option>
-              <option value="in_review">In Review</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
+              <SelectTrigger>
+                <SelectValue placeholder="All Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="open">Open</SelectItem>
+                <SelectItem value="in_review">In Review</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+                <SelectItem value="in_progress">In Progress</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+              </SelectContent>
             </Select>
           </div>
           <Button onClick={() => setShowNewRequestDialog(true)}>
