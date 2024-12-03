@@ -48,10 +48,12 @@ export function useFeatureRequests(search?: string, status?: string) {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates),
+      credentials: 'include'  // Add this line to send authentication cookies
     });
 
     if (!response.ok) {
-      throw new Error("Failed to update feature request");
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to update feature request");
     }
 
     queryClient.invalidateQueries({ queryKey: ["feature-requests"] });
