@@ -5,6 +5,7 @@ import { useFeatureRequests } from "../hooks/use-feature-requests";
 import { useUser } from "../hooks/use-user";
 import { type FeatureRequest } from "@db/schema";
 import type { statusEnum } from "@db/schema";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   searchTerm: string;
@@ -15,6 +16,7 @@ type StatusType = typeof statusEnum.enumValues[number];
 
 export default function FeatureRequestList({ searchTerm, statusFilter }: Props) {
   const { user } = useUser();
+  const { toast } = useToast();
   const { data: requests, updateFeatureRequest } = useFeatureRequests(searchTerm, statusFilter);
 
   const handleStatusChange = async (request: FeatureRequest, newStatus: StatusType) => {
